@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--配置开启扫描注解的包-->
+    <!--表示cn.qst.springdemo这下面的注解都会被扫描到-->
+    <context:component-scan base-package="cn.qst.springdemo"></context:component-scan>
+    <!--通过setter注入-->
+    <bean id="user" class="cn.qst.springdemo.entity.User">
+        <property name="id" value="1"/>
+        <property name="username" value="jiangheng"/>
+        <property name="userpass" value="1223456"/>
+    </bean>
+    <!--通过构造器注入  index 表示的是参数的位置  value 参数的值-->
+    <bean id="user1" class="cn.qst.springdemo.entity.User">
+        <constructor-arg index="0" value="1"></constructor-arg>
+        <constructor-arg index="1" value="hengheng"></constructor-arg>
+        <constructor-arg index="2" value="123456"></constructor-arg>
+    </bean>
+    <!--依赖注入Function-->
+    <bean id="function" class="cn.qst.springdemo.entity.Function">
+        <property name="id" value="1"></property>
+        <property name="functionName" value="敲代码"></property>
+
+    </bean>
+    <bean id="function1" class="cn.qst.springdemo.entity.Function">
+        <property name="id" value="2"></property>
+        <property name="functionName" value="改BUG"></property>
+
+    </bean>
+    <bean id="function2" class="cn.qst.springdemo.entity.Function">
+        <property name="id" value="3"></property>
+        <property name="functionName" value="睡觉"></property>
+
+    </bean>
+    <!--引用-->
+    <bean id="user2" class="cn.qst.springdemo.entity.User">
+        <property name="function" ref="function"></property>
+        <property name="userpass" value="456789"></property>
+        <property name="username" value="石玉梅"></property>
+    </bean>
+
+    <!--装配集合-->
+    <bean id="user3" class="cn.qst.springdemo.entity.User">
+        <property name="id" value="4"></property>
+        <property name="username" value="小哈"></property>
+        <property name="userpass" value="7894865"></property>
+        <property name="function" ref="function1"></property>
+        <!--装配list-->
+        <property name="list">
+            <list>
+                <!--带有关联的list集合-->
+                <ref bean="function1"></ref>
+                <ref bean="function2"></ref>
+            </list>
+        </property>
+        <!--装配配set集合-->
+
+        <property name="set">
+            <set>
+                <!--带有关联的set集合-->
+                <ref bean="function"></ref>
+            </set>
+        </property>
+
+        <!--装配Map-->
+        <property name="map">
+            <map>
+                <entry key="first" value-ref="function"></entry>
+                <entry key="second" value-ref="function2"></entry>
+            </map>
+        </property>
+    </bean>
+
+
+</beans>
